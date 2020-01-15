@@ -1,17 +1,5 @@
-# Code of example 23
-#
-# Works under Windows
-#
-#
-#
-
 suppressMessages(library(pirouette))
 suppressMessages(library(ggplot2))
-
-
-#if (!is_on_travis()) {
-#  setwd("~/GitHubs/pirouette_example_1")
-#}
 
 root_folder <- getwd()
 example_no <- 23
