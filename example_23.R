@@ -35,12 +35,13 @@ for (i in seq_along(experiments)) {
   experiments[[i]]$beast2_options$rng_seed <- rng_seed
 }
 
-# Testing on local machine
-#if (!is_on_travis()) {
-#  for (i in seq_along(experiments)) {
-#    experiments[[i]]$inference_model$mcmc <- create_mcmc(chain_length = 20000, store_every = 1000)
-#  }
-#}
+# Shorter on Travis
+if (is_on_travis()) {
+  for (i in seq_along(experiments)) {
+    experiments[[i]]$inference_model$mcmc$chain_length <- 3000
+    experiments[[i]]$inference_model$mcmc$store_every <- 1000
+  }
+}
 
 pir_params <- create_pir_params(
   alignment_params = alignment_params,
