@@ -1,0 +1,84 @@
+# DO NOT CHANGE the "init" and "install" sections below
+
+# Download script file from GitHub
+init:
+  ps: |
+        $ErrorActionPreference = "Stop"
+        Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
+        Import-Module '..\appveyor-tool.ps1'
+
+install:
+  ps: Bootstrap
+
+cache:
+  - C:\RLibrary
+
+# Adapt as necessary starting from here
+
+# Inspired on https://github.com/juliasilge/tidytext
+environment:
+  global:
+    WARNINGS_ARE_ERRORS: 1
+    USE_RTOOLS: true
+
+build_script:
+  - travis-tool.sh install_r curl
+  - travis-tool.sh install_github Giappo/mbd
+  - travis-tool.sh install_github jimhester/covr
+  - travis-tool.sh install_github jimhester/lintr
+  - travis-tool.sh install_r babette
+  - travis-tool.sh install_github richelbilderbeek/mcbette
+  - travis-tool.sh install_github thijsjanzen/nLTT
+  - travis-tool.sh install_github rsetienne/PBD/PBD
+  - travis-tool.sh install_github richelbilderbeek/becosys
+  - travis-tool.sh install_github thijsjanzen/nodeSub
+  - travis-tool.sh install_github richelbilderbeek/pirouette
+  - travis-tool.sh install_deps
+  - Rscript -e "beastier::install_beast2()"
+
+test_script:
+  - travis-tool.sh run_tests
+
+after_test:
+  # Delete all previous results
+  - rm -rf example_23_314
+  # Go!
+  - Rscript example_23.R
+  # Check if all files are created
+  # Basic files: true alignment
+  - if not exist "example_23_314/true_alignment.fas" exit 1
+  - if not exist "example_23_314/true_alignment.png" exit 1
+  # Basic files: true alignment, generative model
+  - if not exist "example_23_314/true_alignment_gen.xml" exit 1
+  - if not exist "example_23_314/true_alignment_gen.xml.state" exit 1
+  - if not exist "example_23_314/true_alignment_gen.log" exit 1
+  - if not exist "example_23_314/true_alignment_gen.trees" exit 1
+  - if not exist "example_23_314/true_alignment_gen.csv" exit 1
+  - if not exist "example_23_314/true_errors_gen.csv" exit 1
+  # Derived files: true alignment, generative model
+  - if not exist "example_23_314/esses_gen.latex" exit 1
+  - if not exist "example_23_314/true_error_violin_gen.png" exit 1
+  - if not exist "example_23_314/true_posterior_gen.png" exit 1
+
+on_failure:
+  - 7z a failure.zip *.Rcheck\*
+  - appveyor PushArtifact failure.zip
+
+artifacts:
+  - path: '*.Rcheck\**\*.log'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.out'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.fail'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.Rout'
+    name: Logs
+
+  - path: '\*_*.tar.gz'
+    name: Bits
+
+  - path: '\*_*.zip'
+    name: Bits
