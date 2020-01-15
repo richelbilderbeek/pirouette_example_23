@@ -1,4 +1,4 @@
-# Code of example 1
+# Code of example 23
 #
 # Works under Windows
 #
@@ -14,7 +14,7 @@ suppressMessages(library(ggplot2))
 #}
 
 root_folder <- getwd()
-example_no <- 1
+example_no <- 23
 rng_seed <- 314
 example_folder <- file.path(root_folder, paste0("example_", example_no, "_", rng_seed))
 dir.create(example_folder, showWarnings = FALSE, recursive = TRUE)
