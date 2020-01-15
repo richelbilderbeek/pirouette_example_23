@@ -28,10 +28,8 @@ before_script:
   - Rscript -e "mauricer::install_beast2_pkg(\"NS\")"
 
 script:
-  # Delete all previous results
-  #- rm -rf example_23_314
   # Go!
-  - travis_wait 60 Rscript example_23.R
+  - travis_wait 60 ./scripts/rerun.sh
   # Check if all files are created
   # Basic files: true alignment
   - if [ ! -f example_23_314/true_alignment.fas ]; then echo "file 'true_alignment.fas' not found" ; exit 1 ; fi
