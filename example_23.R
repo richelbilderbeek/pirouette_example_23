@@ -67,8 +67,6 @@ indices <- c(
   round(3 * length(data) / 4),
   length(data)
 )
-indices
-
 
 for (i in seq_along(indices)) {
 
