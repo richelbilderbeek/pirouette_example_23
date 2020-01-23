@@ -109,7 +109,7 @@ for (i in seq_along(indices)) {
   }
 
   # Shorter on Travis
-  if (is_on_travis() || TRUE) {
+  if (is_on_travis()) {
     for (i in seq_along(experiments)) {
       experiments[[i]]$inference_model$mcmc$chain_length <- 3000
       experiments[[i]]$inference_model$mcmc$store_every <- 1000

@@ -7,6 +7,6 @@
 #   ./scripts/rerun.sh
 #
 #
-rm -rf example_23_314
+rm -rf $(ls | egrep "example_23_3..")
 Rscript example_23.R
 

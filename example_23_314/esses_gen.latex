@@ -1,18 +1,18 @@
 % latex table generated in R 3.6.1 by xtable 1.8-4 package
-% Wed Jan 22 21:51:25 2020
+% Thu Jan 23 07:56:11 2020
 \begin{table}[ht]
 \centering
 \begin{tabular}{ll}
   \hline
 parameter & ESS \\ 
   \hline
-posterior & 4 \\ 
-  likelihood & 4 \\ 
-  prior & 4 \\ 
-  treeLikelihood & 4 \\ 
-  TreeHeight & 4 \\ 
-  YuleModel & 4 \\ 
-  birthRate & 4 \\ 
+posterior & 9953 \\ 
+  likelihood & 9961 \\ 
+  prior & 9271 \\ 
+  treeLikelihood & 9961 \\ 
+  TreeHeight & 9571 \\ 
+  YuleModel & 9271 \\ 
+  birthRate & 8608 \\ 
    \hline
 \end{tabular}
 \caption{ESSes for generative model} 

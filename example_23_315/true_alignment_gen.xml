@@ -32,7 +32,7 @@ name="alignment">
 <map name="OneOnX" >beast.math.distributions.OneOnX</map>
 
 
-<run id="mcmc" spec="MCMC" chainLength="3000" storeEvery="1000">
+<run id="mcmc" spec="MCMC" chainLength="10000000" storeEvery="1000">
     <state id="state" storeEvery="5000">
         <tree id="Tree.t:true_alignment" name="stateNode">
             <taxonset id="TaxonSet.true_alignment" spec="TaxonSet">
