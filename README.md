@@ -11,3 +11,11 @@ A [pirouette example](https://github.com/richelbilderbeek/pirouette_examples) th
 
 ![](example_23_314/errors.png)
 
+![](example_23_315/errors.png)
+
+![](example_23_316/errors.png)
+
+![](example_23_317/errors.png)
+
+![](example_23_318/errors.png)
+
