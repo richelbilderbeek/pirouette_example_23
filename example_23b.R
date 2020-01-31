@@ -1,5 +1,6 @@
 create_dd_experiment <- function(n_replicates = 2) {
 
+  print("Start")
   # beast?
   if (beastier::is_beast2_installed() == FALSE) {
     beastier::install_beast2() 
@@ -7,7 +8,10 @@ create_dd_experiment <- function(n_replicates = 2) {
   if (mauricer::is_beast2_ns_pkg_installed() == FALSE) {
     mauricer::install_beast2_pkg("NS")
   }
-  # parsetting
+  stopifnot(beastier::is_beast2_installed())
+  stopifnot(mauricer::is_beast2_ns_pkg_installed())
+  
+  print("parsetting")
   parses <- vector("list", 3)
   parses[[3]] <- parses[[2]] <- parses[[1]] <- data.frame(
     lambda = 0.8,
@@ -100,3 +104,4 @@ create_dd_experiment <- function(n_replicates = 2) {
   }
   pir_outs
 }
+create_dd_experiment()
