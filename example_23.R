@@ -17,11 +17,14 @@ n_all_trees <- 12
 #  * 'phylogeny': a reconstructed phylogeny
 #  * 'log_likelihood': the log likelihood of that tree
 data <- list()
+
+
 for (i in seq(1, n_all_trees)) {
   # Create a list of trees
-  speciation_rate <- 1.0 # lambda
-  extinction_rate <- 0.2 # mu
-  carrying_capacity <- 6 # clade-level
+
+  speciation_rate <- 0.8 # lambda
+  extinction_rate <- 0.4 # mu
+  carrying_capacity <- 40 # clade-level
   pars <- c(speciation_rate, extinction_rate, carrying_capacity)
   ddmodel <- 1 # linear dependence in speciation rate with parameter K
   set.seed(i)
