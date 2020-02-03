@@ -25,16 +25,31 @@ for (i in seq(1, n_all_trees)) {
   speciation_rate <- 0.8 # lambda
   extinction_rate <- 0.4 # mu
   carrying_capacity <- 40 # clade-level
-  pars <- c(speciation_rate, extinction_rate, carrying_capacity)
+  crown_age <- 10
+  dd_parameters <- c(speciation_rate, extinction_rate, carrying_capacity)
   ddmodel <- 1 # linear dependence in speciation rate with parameter K
   set.seed(i)
-  dd_sim_result <- DDD::dd_sim(pars = pars, age  = 10, ddmodel = ddmodel)
+  dd_sim_result <- DDD::dd_sim(pars = dd_parameters, age  = crown_age, ddmodel = ddmodel)
   phylogeny <- dd_sim_result$tes # Only extant species
+
+  max_num_species <- 2 * carrying_capacity
+  conditioning <- 1 # crown age and non-extinction of the phylogeny
+  likelihood_branching_times_or_phylogeny <- 0 # branching times
+  verbose <- 0 # be silent
+  stem_age_or_crown_age <- 2 # crown age
+  model_settings <- c(
+    max_num_species,
+    ddmodel,
+    conditioning,
+    likelihood_branching_times_or_phylogeny,
+    verbose,
+    stem_age_or_crown_age
+  )
   log_likelihood <- DDD::dd_loglik(
-    pars1 = pars,
-    pars2 = c(100, 1, 1, 1, 0, 2),
+    pars1 = dd_parameters,
+    pars2 = model_settings,
     brts = dd_sim_result$brts,
-    missnumspec = 0
+    missnumspec = 0 # Number of missing/unsampled species
   )
   data[[i]] <- list()
   data[[i]]$log_likelihood <- log_likelihood
