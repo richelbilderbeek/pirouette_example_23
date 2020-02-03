@@ -23,7 +23,7 @@ for (i in seq(1, n_all_trees)) {
   # Create a list of trees
 
   speciation_rate <- 0.8 # lambda
-  extinction_rate <- 0.4 # mu
+  extinction_rate <- 0.1 # mu
   carrying_capacity <- 40 # clade-level
   crown_age <- 10
   dd_parameters <- c(speciation_rate, extinction_rate, carrying_capacity)

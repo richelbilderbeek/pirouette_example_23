@@ -14,10 +14,10 @@ print("parsetting")
 # I suggest to do simulations with DDD_sim with crown age 5 and crown age 15,
 # and extinction rates 0 and 0.4. Speciation rate is 0.8 and K is 40. And then 10-100 trees for each parameter setting.
 parses <- data.frame(
-  lambda = 0.8,
-  mu = 0.4,
-  kk = 40,
-  crown_age = 10,
+  lambda = 0.8, # matches
+  mu = 0.1, # matches
+  kk = 40, # matches
+  crown_age = 10, # matches
   cond = 1,
   ddmodel = 1,
   n_0 = 2
@@ -26,27 +26,27 @@ parses <- data.frame(
 # simulate trees
 sim_data <- vector("list", length(parses))
 for (i in seq_along(parses)){
-  pars <- parses[[i]]
+  pars <- parses
   loglik <- rep(NA, n_replicates)
   for (seed in seq_len(n_replicates)) {
     set.seed(seed)
     sim_data[[i]][[seed]] <- DDD::dd_sim(
-      pars = c(pars$lambda, pars$mu, pars$kk),
-      age = pars$crown_age,
-      ddmodel = pars$ddmodel
+      pars = c(pars$lambda, pars$mu, pars$kk), # matches
+      age = pars$crown_age, # matches
+      ddmodel = pars$ddmodel # mathes
     )
     loglik[seed] <- DDD::dd_loglik(
       pars1 = c(pars$lambda, pars$mu, pars$kk),
       pars2 = c(
-        2 * pars$kk,
-        pars$ddmodel,
-        pars$cond,
-        0,
-        0,
-        pars$n_0
+        2 * pars$kk, # matches
+        pars$ddmodel, # matches
+        pars$cond, # matches
+        0, # matches
+        0, # ?
+        pars$n_0 # matches
       ),
-      brts = sim_data[[i]][[seed]]$brts,
-      missnumspec = 0
+      brts = sim_data[[i]][[seed]]$brts, # matches
+      missnumspec = 0 # matches
     )
     sim_data[[i]][[seed]]$loglik <- loglik[seed]
     sim_data[[i]][[seed]]$gamma <- phytools::gammatest(
