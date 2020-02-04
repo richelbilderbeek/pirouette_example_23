@@ -149,10 +149,15 @@ for (i in seq_along(indices)) {
     twin_evidence_filename = "twin_evidence.csv"
   )
 
+  error_measure_params <- pirouette::create_error_measure_params(
+    error_fun = pirouette::get_gamma_error_fun()
+  )
+
   pir_params <- create_pir_params(
     alignment_params = alignment_params,
     experiments = experiments,
-    twinning_params = twinning_params
+    twinning_params = twinning_params,
+    error_measure_params = error_measure_params
   )
 
   rm_pir_param_files(pir_params)
