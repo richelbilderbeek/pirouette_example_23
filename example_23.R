@@ -10,7 +10,7 @@ example_no <- 23
 
 testit::assert(is_beast2_installed())
 
-# The total number of DD trees to pick from
+# The total number of DD trees to simulate
 n_all_trees <- 12
 
 # 'data' is a list, of which each element has
@@ -18,7 +18,9 @@ n_all_trees <- 12
 #  * 'log_likelihood': the log likelihood of that tree
 data <- list()
 
-
+################################################################################
+# Creates phylogenies of a known log-likelihood
+################################################################################
 for (i in seq(1, n_all_trees)) {
   # Create a list of trees
 
@@ -59,6 +61,13 @@ for (i in seq(1, n_all_trees)) {
   testit::assert(class(data[[i]]$phylogeny) == "phylo")
   testit::assert(class(data[[i]]$log_likelihood) == "numeric")
 }
+
+# Show the distribution of log likelihoods
+ggplot2::ggplot(
+  data.frame(log_likelihood = sapply(data,'[[', 1)),
+  aes(x = log_likelihood)
+) + geom_density() + ggsave("likelihoods.png")
+
 # Sort 'data' by log-likelihood
 sorted_data <- data[order(sapply(data,'[[',1))]
 
@@ -68,12 +77,6 @@ for (i in seq_along(sorted_data)) {
   testit::assert(lowest <= sorted_data[[i]]$log_likelihood)
   lowest <- sorted_data[[i]]$log_likelihood
 }
-
-# Show the distribution of log likelihoods
-ggplot2::ggplot(
-  data.frame(log_likelihood = sapply(sorted_data,'[[', 1)),
-  aes(x = log_likelihood)
-) + geom_density()
 
 
 # The indices of the phylogenies to use:
