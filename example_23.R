@@ -104,8 +104,9 @@ for (i in seq_along(indices)) {
 
   alignment_params <- create_alignment_params(
     sim_tral_fun = get_sim_tral_with_std_nsm_fun(
-      mutation_rate = 0.1,
-      site_model = beautier::create_jc69_site_model()
+      mutation_rate = pirouette::create_standard_mutation_rate(
+        phylogeny = phylogeny
+      )
     ),
     root_sequence = create_blocked_dna(length = 1000),
     rng_seed = rng_seed,
@@ -138,9 +139,10 @@ for (i in seq_along(indices)) {
     rng_seed_twin_tree = rng_seed,
     sim_twin_tree_fun = get_sim_bd_twin_tree_fun(),
     rng_seed_twin_alignment = rng_seed,
-    sim_twal_fun = get_sim_twal_same_n_muts_fun(
-      mutation_rate = 0.1,
-      max_n_tries = 1000
+    sim_twal_fun = get_sim_twal_with_std_nsm_fun(
+      mutation_rate = pirouette::create_standard_mutation_rate(
+        phylogeny
+      )
     ),
     twin_tree_filename = "twin_tree.newick",
     twin_alignment_filename = "twin_alignment.fas",
