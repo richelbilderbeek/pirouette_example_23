@@ -113,6 +113,7 @@ for (i in seq_along(indices)) {
     fasta_filename = "true_alignment.fas"
   )
 
+  # No need for candidate models here
   experiment <- create_gen_experiment()
   experiment$beast2_options$input_filename <- "true_alignment_gen.xml"
   experiment$beast2_options$output_state_filename <- "true_alignment_gen.xml.state"
