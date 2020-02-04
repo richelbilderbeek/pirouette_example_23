@@ -11,7 +11,7 @@ example_no <- 23
 testit::assert(is_beast2_installed())
 
 # The total number of DD trees to simulate
-n_all_trees <- 12
+n_all_trees <- 12 * 10
 
 # 'data' is a list, of which each element has
 #  * 'phylogeny': a reconstructed phylogeny
@@ -22,6 +22,7 @@ data <- list()
 # Creates phylogenies of a known log-likelihood
 ################################################################################
 for (i in seq(1, n_all_trees)) {
+  print(paste(i, "/", n_all_trees))
   # Create a list of trees
 
   speciation_rate <- 0.8 # lambda
@@ -89,9 +90,6 @@ indices <- c(
   length(data)
 )
 
-
-
-
 # Show the distribution of log likelihoods
 ggplot2::ggplot(
   data.frame(log_likelihood = sapply(data,'[[', 1)),
@@ -103,7 +101,6 @@ ggplot2::ggplot(
     size = 2
   ) +
   geom_density() + ggsave("likelihoods.png")
-
 
 for (i in seq_along(indices)) {
 
@@ -118,7 +115,6 @@ for (i in seq_along(indices)) {
   setwd(example_folder)
 
   set.seed(rng_seed)
-  index <- 1 + ((i - 1) * length(data) / 4)
   phylogeny <- data[[ indices[i] ]]$phylogeny
 
   alignment_params <- create_alignment_params(
