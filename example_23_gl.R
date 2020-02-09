@@ -5,11 +5,11 @@ create_dd_experiment <- function(n_replicates = 2) {
   if (beastier::is_beast2_installed() == FALSE) {
     beastier::install_beast2() 
   }
-  if (mauricer::is_beast2_ns_pkg_installed() == FALSE) {
-    mauricer::install_beast2_pkg("NS")
-  }
+  # if (mauricer::is_beast2_ns_pkg_installed() == FALSE) {
+  #   mauricer::install_beast2_pkg("NS")
+  # }
   stopifnot(beastier::is_beast2_installed())
-  stopifnot(mauricer::is_beast2_ns_pkg_installed())
+  # stopifnot(mauricer::is_beast2_ns_pkg_installed())
   
   print("parsetting")
   parses <- vector("list", 3)
