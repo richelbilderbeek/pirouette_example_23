@@ -102,6 +102,7 @@ create_dd_experiment <- function(n_replicates = 2) {
       pir_paramses = pir_paramses
     )
   }
+  save(pir_outs, file = paste0("dd_out_", n_replicates, ".RData"))
   pir_outs
 }
 create_dd_experiment()
