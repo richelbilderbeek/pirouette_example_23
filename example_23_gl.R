@@ -1,7 +1,6 @@
 create_dd_experiment <- function(n_replicates = 2) {
 
-  print("Start")
-  # beast?
+  # check beast
   if (beastier::is_beast2_installed() == FALSE) {
     beastier::install_beast2() 
   }
@@ -11,19 +10,22 @@ create_dd_experiment <- function(n_replicates = 2) {
   stopifnot(beastier::is_beast2_installed())
   stopifnot(mauricer::is_beast2_ns_pkg_installed())
   
-  print("parsetting")
-  parses <- vector("list", 3)
-  parses[[3]] <- parses[[2]] <- parses[[1]] <- data.frame(
-    lambda = 0.8,
-    mu = 0.1,
-    kk = 40,
-    crown_age = 0,
-    cond = 1,
-    ddmodel = 1,
-    n_0 = 2
-  )
-  for (i in seq_along(parses)){
-    parses[[i]]$crown_age <- 5 * i
+  suppressMessages(library(pirouette))
+  suppressMessages(library(ggplot2))
+  
+  # parsetting
+  l_parses <- 3
+  parses <- vector("list", l_parses)
+  for (i in seq_len(l_parses)) {
+    parses[[i]] <- data.frame(
+      lambda = 0.8,
+      mu = 0.1,
+      kk = 40,
+      crown_age = 5 * i,
+      cond = 1,
+      ddmodel = 1,
+      n_0 = 2
+    )
   }
   
   # simulate trees
@@ -102,6 +104,8 @@ create_dd_experiment <- function(n_replicates = 2) {
       pir_paramses = pir_paramses
     )
   }
+
+  # return and save out
   if (!dir.exists("gl")) {
     dir.create("gl")
   }
