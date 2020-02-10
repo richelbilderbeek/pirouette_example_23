@@ -117,7 +117,7 @@ create_dd_experiment <- function(n_replicates = 2) {
     pir_outs,
     file = file.path(
       example_folder,
-      paste0("dd_out_", n_replicates, ".RData")
+      paste0("error_vs_dd_", n_replicates, ".RData")
     )
   )
   pir_outs
