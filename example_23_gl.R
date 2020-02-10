@@ -12,6 +12,13 @@ create_dd_experiment <- function(n_replicates = 2) {
   
   suppressMessages(library(pirouette))
   suppressMessages(library(ggplot2))
+
+  # folder setting
+  root_folder <- getwd()
+  example_no <- 23
+  example_folder <- file.path(root_folder, paste0("example_", example_no, "_", "gl"))
+  dir.create(example_folder, showWarnings = FALSE, recursive = TRUE)
+  setwd(example_folder)
   
   # parsetting
   l_parses <- 3
@@ -106,13 +113,10 @@ create_dd_experiment <- function(n_replicates = 2) {
   }
 
   # return and save out
-  if (!dir.exists("gl")) {
-    dir.create("gl")
-  }
   save(
     pir_outs,
     file = file.path(
-      "gl",
+      example_folder,
       paste0("dd_out_", n_replicates, ".RData")
     )
   )
