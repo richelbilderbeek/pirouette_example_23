@@ -166,7 +166,7 @@ for (i in seq_along(indices)) {
   )
 
   error_measure_params <- pirouette::create_error_measure_params(
-    error_fun = pirouette::get_gamma_error_fun()
+    error_fun = pirouette::get_nltt_error_fun()
   )
 
   pir_params <- create_pir_params(
