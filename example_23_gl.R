@@ -1,4 +1,4 @@
-create_dd_experiment <- function(n_replicates = 2) {
+create_dd_experiment <- function(n_replicates = 2, seq_length = 1e3) {
 
   # check beast
   if (beastier::is_beast2_installed() == FALSE) {
@@ -66,6 +66,16 @@ create_dd_experiment <- function(n_replicates = 2) {
       )$gamma
     }
   }
+
+  # experiments
+  if (rappdirs::app_dir()$os == "win") {
+    experiment <- pirouette::create_gen_experiment()
+    experiment$est_evidence_mcmc$chain_length <- 1e6
+    experiment$inference_model$mcmc$chain_length <- 1e6
+    experiments <- list(experiment)
+  } else {
+    experiments <- pirouette::create_all_experiments()
+  }
   
   # create pir_params
   pir_paramseses <- vector("list", length(parses))
@@ -80,7 +90,7 @@ create_dd_experiment <- function(n_replicates = 2) {
             ),
             site_model = beautier::create_jc69_site_model()
           ),
-          root_sequence = pirouette::create_blocked_dna(length = 1e3),
+          root_sequence = pirouette::create_blocked_dna(length = seq_length),
         ),
         twinning_params = pirouette::create_twinning_params(
           rng_seed_twin_tree = seed,
@@ -93,7 +103,7 @@ create_dd_experiment <- function(n_replicates = 2) {
             site_model = beautier::create_jc69_site_model()
           )
         ), 
-        experiments = pirouette::create_all_experiments(),
+        experiments = experiments,
         error_measure_params = pirouette::create_error_measure_params(
           error_fun = pirouette::get_gamma_error_fun()
         )
@@ -122,4 +132,8 @@ create_dd_experiment <- function(n_replicates = 2) {
   )
   pir_outs
 }
-create_dd_experiment()
+create_dd_experiment(
+  n_replicates = 2,
+  seq_length = 1e2 * (rappdirs::app_dir()$os == "win") +
+    1e3 * (rappdirs::app_dir()$os != "win")
+)
