@@ -9,11 +9,7 @@ suppressMessages(library(ggplot2))
 # Constants
 ################################################################################
 is_testing <- is_on_travis()
-
-root_folder <- getwd()
 example_no <- 23
-
-testit::assert(is_beast2_installed())
 
 # The total number of DD trees to simulate
 n_all_trees <- 12 * 10
