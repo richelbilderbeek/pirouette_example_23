@@ -122,28 +122,14 @@ for (i in seq_along(indices)) {
     pir_params <- shorten_pir_params(pir_params)
   }
 
-  errors <- pir_run(
+  pir_out <- pir_run(
     phylogeny,
     pir_params = pir_params
   )
 
-  utils::write.csv(
-    x = errors,
-    file = file.path(folder_name, "errors.csv"),
-    row.names = FALSE
-  )
-
-  pir_plot(errors) +
-    ggsave(file.path(folder_name, "errors.png"), width = 7, height = 7)
-
-  pir_to_pics(
+  pir_save(
     phylogeny = phylogeny,
-    pir_params = pir_params,
-    folder = folder_name
-  )
-
-  pir_to_tables(
-    pir_params = pir_params,
-    folder = folder_name
+    pir_out = pir_out,
+    folder_name = folder_name
   )
 }
