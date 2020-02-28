@@ -3,7 +3,6 @@
 # Show the true and twin errors for DD trees of different likelihoods
 # using a BD tree prior,
 suppressMessages(library(pirouette))
-suppressMessages(library(ggplot2))
 
 ################################################################################
 # Constants
@@ -129,6 +128,7 @@ for (i in seq_along(indices)) {
 
   pir_save(
     phylogeny = phylogeny,
+    pir_params = pir_params,
     pir_out = pir_out,
     folder_name = folder_name
   )
