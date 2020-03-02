@@ -2,7 +2,9 @@
 #
 # Show the true and twin errors for DD trees of different likelihoods
 # using a BD tree prior,
-suppressMessages(library(pirouette))
+library(pirouette)
+library(testthat)
+library(ggplot2)
 
 # Constants
 is_testing <- is_on_travis()
@@ -16,7 +18,6 @@ data <- list()
 
 # Creates phylogenies of a known log-likelihood
 for (i in seq(1, n_all_trees)) {
-  print(paste(i, "/", n_all_trees))
   # Create a list of trees
   speciation_rate <- 0.8 # lambda
   extinction_rate <- 0.1 # mu
