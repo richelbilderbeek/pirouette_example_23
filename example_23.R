@@ -1,8 +1,21 @@
 # From https://github.com/richelbilderbeek/pirouette_article/issues/58 :
 #
-# Show the true and twin errors for DD trees of different likelihoods
-# using a BD tree prior,
+# A pirouette example
+# that shows the true and twin errors for DD trees of different likelihoods,
+# using a BD tree prior
+#
+# It does so by simulating 'n_trees' DD trees from the same parameters.
+# From each of those trees, the likelihood is known.
+# Afterwards, the simulated DD trees are sorted by that likelihood
+#
+# From those sorted trees, it takes the top 'n_replicates' trees to
+# get a pirouette error distribution.
+# Likewise for the bottom 'n_replicates' trees.
+# Likewise for the middle 'n_replicates' trees.
+
 library(pirouette)
+library(beautier)
+library(beastier)
 library(testthat)
 library(ggplot2)
 
@@ -10,14 +23,23 @@ library(ggplot2)
 is_testing <- is_on_travis()
 example_no <- 23
 # The total number of DD trees to simulate
-n_all_trees <- 12 * 10
+n_trees <- 1000
+n_replicates <- 5
+
+if (is_testing) {
+  n_replicates <- 2
+  n_trees <- n_replicates * 5
+}
+
+################################################################################
+# Create list of phylogenies and likelihoods
 # 'data' is a list, of which each element has
 #  * 'phylogeny': a reconstructed phylogeny
 #  * 'log_likelihood': the log likelihood of that tree
+################################################################################
 data <- list()
-
 # Creates phylogenies of a known log-likelihood
-for (i in seq(1, n_all_trees)) {
+for (i in seq(1, n_trees)) {
   # Create a list of trees
   speciation_rate <- 0.8 # lambda
   extinction_rate <- 0.1 # mu
@@ -55,12 +77,10 @@ for (i in seq(1, n_all_trees)) {
   testit::assert(class(data[[i]]$phylogeny) == "phylo")
   testit::assert(class(data[[i]]$log_likelihood) == "numeric")
 }
-# Show the distribution of log likelihoods
-ggplot2::ggplot(
-  data.frame(log_likelihood = sapply(data,'[[', 1)),
-  aes(x = log_likelihood)
-) + geom_density() + ggsave("likelihoods.png")
-# Sort 'data' by log-likelihood
+
+################################################################################
+# Sort 'data', create 'sorted_data'
+################################################################################
 sorted_data <- data[order(sapply(data,'[[',1))]
 # Check if really sorted on log-likelihood
 lowest <- sorted_data[[1]]$log_likelihood
@@ -69,15 +89,43 @@ for (i in seq_along(sorted_data)) {
   lowest <- sorted_data[[i]]$log_likelihood
 }
 
-# The indices of the phylogenies to use:
-# 1, quarter, middle, third-quarter, last
+################################################################################
+# Get the phylogenies
+################################################################################
+phylogenies <- list()
 indices <- c(
-  1,
-  round(1 * length(data) / 4),
-  round(length(data) / 2),
-  round(3 * length(data) / 4),
-  length(data)
+  seq(1, n_replicates),
+  seq(floor((n_trees / 2) - (n_replicates / 2)) + 1, length.out = n_replicates),
+  seq(n_trees - n_replicates + 1, length.out = n_replicates)
 )
+phylogenies <- sapply(data[indices], "[[", 1)
+expect_equal(length(phylogenies), 3 * n_replicates)
+
+################################################################################
+# Create pirouette parameter sets
+################################################################################
+pir_paramses <- create_std_pir_paramses(n = 3 * n_replicates)
+expect_equal(length(pir_paramses), length(phylogenies))
+if (is_testing) {
+  pir_paramses <- shorten_pir_paramses(pir_paramses)
+}
+
+# Do the runs
+pir_outs <- pir_runs(
+  phylogenies = phylogenies,
+  pir_paramses = pir_paramses
+)
+
+# Save
+for (i in seq_along(pir_outs)) {
+  pir_save(
+    phylogeny = phylogenies[[i]],
+    pir_params = pir_paramses[[i]],
+    pir_out = pir_outs[[i]],
+    folder_name = dirname(pir_paramses[[i]]$alignment_params$fasta_filename)
+  )
+}
+
 # Show the distribution of log likelihoods
 ggplot2::ggplot(
   data.frame(log_likelihood = sapply(data,'[[', 1)),
@@ -89,27 +137,3 @@ ggplot2::ggplot(
     size = 2
   ) +
   geom_density() + ggsave("likelihoods.png")
-for (i in seq_along(indices)) {
-  # First RNG seed must be 314
-  rng_seed <- 314 + i - 1
-  testit::assert(rng_seed >= 314)
-  testit::assert(rng_seed <= 318)
-  print(rng_seed)
-  folder_name <- file.path(paste0("example_", example_no, "_", rng_seed))
-  set.seed(rng_seed)
-  phylogeny <- data[[ indices[i] ]]$phylogeny
-  pir_params <- create_std_pir_params(folder_name = folder_name)
-  if (is_testing) {
-    pir_params <- shorten_pir_params(pir_params)
-  }
-  pir_out <- pir_run(
-    phylogeny,
-    pir_params = pir_params
-  )
-  pir_save(
-    phylogeny = phylogeny,
-    pir_params = pir_params,
-    pir_out = pir_out,
-    folder_name = folder_name
-  )
-}
