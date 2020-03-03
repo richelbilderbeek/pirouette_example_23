@@ -98,7 +98,7 @@ indices <- c(
   seq(floor((n_trees / 2) - (n_replicates / 2)) + 1, length.out = n_replicates),
   seq(n_trees - n_replicates + 1, length.out = n_replicates)
 )
-phylogenies <- sapply(data[indices], "[[", 1)
+phylogenies <- sapply(data[indices], "[[", 2)
 expect_equal(length(phylogenies), 3 * n_replicates)
 
 ################################################################################
