@@ -25,10 +25,12 @@ example_no <- 23
 # The total number of DD trees to simulate
 n_trees <- 1000
 n_replicates <- 5
+carrying_capacity <- 40 # clade-level
 
 if (is_testing) {
   n_replicates <- 2
   n_trees <- n_replicates * 5
+  carrying_capacity <- 3
 }
 
 ################################################################################
@@ -43,7 +45,6 @@ for (i in seq(1, n_trees)) {
   # Create a list of trees
   speciation_rate <- 0.8 # lambda
   extinction_rate <- 0.1 # mu
-  carrying_capacity <- 40 # clade-level
   crown_age <- 10
   dd_parameters <- c(speciation_rate, extinction_rate, carrying_capacity)
   ddmodel <- 1 # linear dependence in speciation rate with parameter K
