@@ -77,7 +77,7 @@ for (i in seq(1, n_trees)) {
   testit::assert(class(data[[i]]$phylogeny) == "phylo")
   testit::assert(class(data[[i]]$log_likelihood) == "numeric")
 }
-
+expect_equal(n_trees, length(data))
 ################################################################################
 # Sort 'data', create 'sorted_data'
 ################################################################################
@@ -88,7 +88,7 @@ for (i in seq_along(sorted_data)) {
   testit::assert(lowest <= sorted_data[[i]]$log_likelihood)
   lowest <- sorted_data[[i]]$log_likelihood
 }
-
+expect_equal(n_trees, length(sorted_data))
 ################################################################################
 # Get the phylogenies
 ################################################################################
@@ -98,7 +98,7 @@ indices <- c(
   seq(floor((n_trees / 2) - (n_replicates / 2)) + 1, length.out = n_replicates),
   seq(n_trees - n_replicates + 1, length.out = n_replicates)
 )
-phylogenies <- sapply(data[indices], "[[", 2)
+phylogenies <- lapply(data[indices], "[[", 2)
 expect_equal(length(phylogenies), 3 * n_replicates)
 
 ################################################################################
