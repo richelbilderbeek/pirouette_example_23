@@ -32,7 +32,7 @@ if (is_testing) {
 }
 
 ################################################################################
-# Create list of phylogenies and likelihoods
+message("Create list of phylogenies and likelihoods")
 # 'data' is a list, of which each element has
 #  * 'phylogeny': a reconstructed phylogeny
 #  * 'log_likelihood': the log likelihood of that tree
@@ -79,7 +79,7 @@ for (i in seq(1, n_trees)) {
 }
 expect_equal(n_trees, length(data))
 ################################################################################
-# Sort 'data', create 'sorted_data'
+message("Sort 'data', create 'sorted_data'")
 ################################################################################
 sorted_data <- data[order(sapply(data,'[[',1))]
 # Check if really sorted on log-likelihood
@@ -90,7 +90,7 @@ for (i in seq_along(sorted_data)) {
 }
 expect_equal(n_trees, length(sorted_data))
 ################################################################################
-# Get the phylogenies
+message("Get the phylogenies")
 ################################################################################
 phylogenies <- list()
 indices <- c(
@@ -102,7 +102,7 @@ phylogenies <- lapply(data[indices], "[[", 2)
 expect_equal(length(phylogenies), 3 * n_replicates)
 
 ################################################################################
-# Create pirouette parameter sets
+message("Create pirouette parameter sets")
 ################################################################################
 pir_paramses <- create_std_pir_paramses(n = 3 * n_replicates)
 expect_equal(length(pir_paramses), length(phylogenies))
@@ -110,13 +110,17 @@ if (is_testing) {
   pir_paramses <- shorten_pir_paramses(pir_paramses)
 }
 
-# Do the runs
+################################################################################
+message("Do the runs")
+################################################################################
 pir_outs <- pir_runs(
   phylogenies = phylogenies,
   pir_paramses = pir_paramses
 )
 
-# Save
+################################################################################
+message("Save")
+################################################################################
 for (i in seq_along(pir_outs)) {
   pir_save(
     phylogeny = phylogenies[[i]],
@@ -126,7 +130,9 @@ for (i in seq_along(pir_outs)) {
   )
 }
 
-# Show the distribution of log likelihoods
+################################################################################
+message("Show the distribution of log likelihoods")
+################################################################################
 ggplot2::ggplot(
   data.frame(log_likelihood = sapply(data,'[[', 1)),
   aes(x = log_likelihood)
@@ -137,3 +143,4 @@ ggplot2::ggplot(
     size = 2
   ) +
   geom_density() + ggsave("likelihoods.png")
+
