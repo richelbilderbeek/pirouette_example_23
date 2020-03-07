@@ -137,11 +137,5 @@ message("Show the distribution of log likelihoods")
 ggplot2::ggplot(
   data.frame(log_likelihood = sapply(data,'[[', 1)),
   aes(x = log_likelihood)
-) +
-  geom_vline(
-    data = data.frame(index = as.factor(seq(1, 5))),
-    aes(xintercept = sapply(sorted_data[indices],'[[', 1), colour = index),
-    size = 2
-  ) +
-  geom_density() + ggsave("likelihoods.png")
+) + geom_density() + ggsave("likelihoods.png")
 
