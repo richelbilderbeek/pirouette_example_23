@@ -139,3 +139,9 @@ ggplot2::ggplot(
   aes(x = log_likelihood)
 ) + geom_density() + ggsave("likelihoods.png")
 
+  # geom_vline(
+  #   data = data.frame(index = as.factor(seq(1, 5))),
+  #   aes(xintercept = sapply(sorted_data[indices],'[[', 1), colour = index),
+  #   size = 2
+  # ) +
+
