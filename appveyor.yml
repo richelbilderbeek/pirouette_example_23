@@ -18,19 +18,20 @@ cache:
 # Inspired on https://github.com/juliasilge/tidytext
 environment:
   global:
-    WARNINGS_ARE_ERRORS: 1
+    WARNINGS_ARE_ERRORS: 0
     USE_RTOOLS: true
 
 build_script:
   - travis-tool.sh install_r curl
+  - travis-tool.sh install_github ropensci/babette
   - travis-tool.sh install_github Giappo/mbd
   - travis-tool.sh install_github jimhester/covr
   - travis-tool.sh install_github jimhester/lintr
-  - travis-tool.sh install_r babette
   - travis-tool.sh install_github richelbilderbeek/mcbette
   - travis-tool.sh install_github thijsjanzen/nLTT
   - travis-tool.sh install_github rsetienne/PBD/PBD
   - travis-tool.sh install_github richelbilderbeek/becosys
+  - travis-tool.sh install_r fansi
   - travis-tool.sh install_github thijsjanzen/nodeSub
   - travis-tool.sh install_github richelbilderbeek/pirouette
   - travis-tool.sh install_deps
@@ -41,24 +42,10 @@ test_script:
 
 after_test:
   # Delete all previous results
-  - rm -rf example_23_314
+  - rm -rf example_4_314
   # Go!
-  - Rscript example_23.R
+  - Rscript example_4.R
   # Check if all files are created
-  # Basic files: true alignment
-  - if not exist "example_23_314/true_alignment.fas" exit 1
-  - if not exist "example_23_314/true_alignment.png" exit 1
-  # Basic files: true alignment, generative model
-  - if not exist "example_23_314/true_alignment_gen.xml" exit 1
-  - if not exist "example_23_314/true_alignment_gen.xml.state" exit 1
-  - if not exist "example_23_314/true_alignment_gen.log" exit 1
-  - if not exist "example_23_314/true_alignment_gen.trees" exit 1
-  - if not exist "example_23_314/true_alignment_gen.csv" exit 1
-  - if not exist "example_23_314/true_errors_gen.csv" exit 1
-  # Derived files: true alignment, generative model
-  - if not exist "example_23_314/esses_gen.latex" exit 1
-  - if not exist "example_23_314/true_error_violin_gen.png" exit 1
-  - if not exist "example_23_314/true_posterior_gen.png" exit 1
 
 on_failure:
   - 7z a failure.zip *.Rcheck\*
