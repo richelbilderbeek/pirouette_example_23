@@ -20,7 +20,7 @@ library(testthat)
 library(ggplot2)
 
 # Constants
-is_testing <- is_on_travis()
+is_testing <- is_on_ci()
 example_no <- 23
 # The total number of DD trees to simulate
 n_trees <- 1000
