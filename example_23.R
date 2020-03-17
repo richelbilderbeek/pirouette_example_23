@@ -22,6 +22,7 @@ library(ggplot2)
 # Constants
 is_testing <- is_on_ci()
 example_no <- 23
+folder_name <- paste0("example_", example_no)
 # The total number of DD trees to simulate
 n_trees <- 1000
 n_replicates <- 5
@@ -33,12 +34,10 @@ if (is_testing) {
   carrying_capacity <- 3
 }
 
-################################################################################
-message("Create list of phylogenies and likelihoods")
+# Create list of phylogenies and likelihoods
 # 'data' is a list, of which each element has
 #  * 'phylogeny': a reconstructed phylogeny
 #  * 'log_likelihood': the log likelihood of that tree
-################################################################################
 data <- list()
 # Creates phylogenies of a known log-likelihood
 for (i in seq(1, n_trees)) {
@@ -79,9 +78,8 @@ for (i in seq(1, n_trees)) {
   testit::assert(class(data[[i]]$log_likelihood) == "numeric")
 }
 expect_equal(n_trees, length(data))
-################################################################################
-message("Sort 'data', create 'sorted_data'")
-################################################################################
+
+# Sort 'data', create 'sorted_data'
 sorted_data <- data[order(sapply(data,'[[',1))]
 # Check if really sorted on log-likelihood
 lowest <- sorted_data[[1]]$log_likelihood
@@ -90,9 +88,8 @@ for (i in seq_along(sorted_data)) {
   lowest <- sorted_data[[i]]$log_likelihood
 }
 expect_equal(n_trees, length(sorted_data))
-################################################################################
-message("Get the phylogenies")
-################################################################################
+
+# Create phylogenies
 phylogenies <- list()
 indices <- c(
   seq(1, n_replicates),
@@ -102,26 +99,28 @@ indices <- c(
 phylogenies <- lapply(data[indices], "[[", 2)
 expect_equal(length(phylogenies), 3 * n_replicates)
 
-################################################################################
-message("Create pirouette parameter sets")
-################################################################################
-pir_paramses <- create_std_pir_paramses(n = 3 * n_replicates)
+# Create pirouette parameter sets
+pir_paramses <- create_std_pir_paramses(
+  n = 3 * n_replicates,
+  folder_name = folder_name
+)
 expect_equal(length(pir_paramses), length(phylogenies))
 if (is_testing) {
   pir_paramses <- shorten_pir_paramses(pir_paramses)
 }
 
-################################################################################
-message("Do the runs")
-################################################################################
+# Do the runs
 pir_outs <- pir_runs(
   phylogenies = phylogenies,
   pir_paramses = pir_paramses
 )
 
-################################################################################
-message("Save")
-################################################################################
+# Save summary
+pir_plots(pir_outs) +
+  ggtitle(paste("Number of replicates: ", n_phylogenies)) +
+  ggsave(file.path(folder_name, "errors.png"), width = 7, height = 7)
+
+# Save individual runs
 for (i in seq_along(pir_outs)) {
   pir_save(
     phylogeny = phylogenies[[i]],
