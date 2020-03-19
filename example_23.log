@@ -1,0 +1,47 @@
+Loading required package: beautier
+Loading required package: babette
+Loading required package: beastier
+Loading required package: mauricer
+Loading required package: tracerer
+Registered S3 method overwritten by 'pryr':
+  method      from
+  print.bytes Rcpp
+slurmstepd: error: *** JOB 10159115 ON pg-node059 CANCELLED AT 2020-03-18T12:11:19 DUE TO TIME LIMIT ***
+
+
+###############################################################################
+Peregrine Cluster
+Job 10159115 for user 'p230198'
+Finished at: Wed Mar 18 12:11:21 CET 2020
+
+Job details:
+============
+
+Name                : pirex23
+User                : p230198
+Partition           : regular
+Nodes               : pg-node059
+Cores               : 1
+State               : CANCELLED,TIMEOUT
+Submit              : 2020-03-17T12:11:15
+Start               : 2020-03-17T12:11:16
+End                 : 2020-03-18T12:11:20
+Reserved walltime   : 1-00:00:00
+Used walltime       : 1-00:00:04
+Used CPU time       :   23:32:44 (efficiency: 98.10%)
+% User (Computation): 99.45%
+% System (I/O)      :  0.55%
+Mem reserved        : 10G/node
+Max Mem used        : 1.16G (pg-node059)
+Max Disk Write      : 71.68K (pg-node059)
+Max Disk Read       : 1.35M (pg-node059)
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/additional_information/scientific_output
+
+################################################################################
