@@ -25,7 +25,7 @@ example_no <- 23
 folder_name <- paste0("example_", example_no)
 # The total number of DD trees to simulate
 n_trees <- 1000
-n_replicates <- 5
+n_replicates <- 2
 carrying_capacity <- 40 # clade-level
 
 if (is_testing) {
@@ -116,9 +116,26 @@ pir_outs <- pir_runs(
 )
 
 # Save summary
-pir_plots(pir_outs) +
-  ggtitle(paste("Number of replicates: ", n_replicates)) +
-  ggsave(file.path(folder_name, "errors.png"), width = 7, height = 7)
+low_index_from <- 1
+low_index_to <- low_index_from + n_replicates - 1
+
+mid_index_from <- low_index_to + 1
+mid_index_to <- mid_index_from + n_replicates - 1
+
+high_index_from <- mid_index_to + 1
+high_index_to <- high_index_from + n_replicates - 1
+ 
+pir_plots(pir_outs[low_index_from:low_index_to]) +
+  ggtitle(paste("Low likelihood. Number of replicates: ", n_replicates)) +
+  ggsave("errors_low.png", width = 7, height = 7)
+
+pir_plots(pir_outs[mid_index_from:mid_index_to]) +
+  ggtitle(paste("Median likelihood. Number of replicates: ", n_replicates)) +
+  ggsave("errors_mid.png", width = 7, height = 7)
+
+pir_plots(pir_outs[high_index_from:high_index_to]) +
+  ggtitle(paste("High likelihood. Number of replicates: ", n_replicates)) +
+  ggsave("errors_high.png", width = 7, height = 7)
 
 # Save individual runs
 for (i in seq_along(pir_outs)) {
@@ -140,4 +157,5 @@ ggplot2::ggplot(
    data = data.frame(index = as.factor(indices)),
      aes(xintercept = sapply(sorted_data[indices],'[[', 1), colour = index),
      size = 2
-  ) + geom_density() + ggtitle("Likelihoods used") + ggsave("likelihoods.png")
+  ) + geom_density() + ggtitle("Likelihoods used") + 
+  ggsave("likelihoods.png")

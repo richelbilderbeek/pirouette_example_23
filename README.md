@@ -9,23 +9,15 @@ A [pirouette example](https://github.com/richelbilderbeek/pirouette_examples) th
 
 ## Results
 
-Lowest likelihood:
+ * Download the intermediate data at 
+   [https://www.richelbilderbeek.nl/pirouette_example_23.zip](https://www.richelbilderbeek.nl/pirouette_example_23.zip)
 
-![](example_23_314/errors.png)
+![](errors_low.png)
 
-Between lowest and median likelihood:
+![](errors_med.png)
 
-![](example_23_315/errors.png)
+![](errors_high.png)
 
-Median likelihood:
+![Likelihoods](likelihoods.png)
 
-![](example_23_316/errors.png)
-
-Between median and highest likelihood:
-
-![](example_23_317/errors.png)
-
-Highest likelihood:
-
-![](example_23_318/errors.png)
 
