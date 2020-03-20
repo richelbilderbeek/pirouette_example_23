@@ -25,7 +25,7 @@ example_no <- 23
 folder_name <- paste0("example_", example_no)
 # The total number of DD trees to simulate
 n_trees <- 1000
-n_replicates <- 2
+n_replicates <- 10
 carrying_capacity <- 40 # clade-level
 
 if (is_testing) {
