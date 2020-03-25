@@ -14,7 +14,7 @@ A [pirouette example](https://github.com/richelbilderbeek/pirouette_examples) th
 
 ![](errors_low.png)
 
-![](errors_med.png)
+![](errors_mid.png)
 
 ![](errors_high.png)
 
