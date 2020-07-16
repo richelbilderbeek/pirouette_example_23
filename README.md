@@ -12,12 +12,21 @@ A [pirouette example](https://github.com/richelbilderbeek/pirouette_examples) th
  * Download the intermediate data at 
    [https://www.richelbilderbeek.nl/pirouette_example_23.zip](https://www.richelbilderbeek.nl/pirouette_example_23.zip)
 
+![](errors.png)
+
+> The combined errors
+
 ![](errors_low.png)
 
+> Errors for the lower likelihoods
+
 ![](errors_mid.png)
+
+> Errors for the average likelihoods
 
 ![](errors_high.png)
 
 ![Likelihoods](likelihoods.png)
 
+> Errors for the higher likelihoods
 
