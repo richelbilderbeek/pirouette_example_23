@@ -29,9 +29,9 @@ n_replicates <- 10
 carrying_capacity <- 40 # clade-level
 
 if (is_testing) {
-  n_replicates <- 2
-  n_trees <- n_replicates * 5
-  carrying_capacity <- 3
+  n_replicates <- 1
+  n_trees <- n_replicates * 1
+  carrying_capacity <- 2
 }
 
 # Create list of phylogenies and likelihoods
