@@ -11,7 +11,6 @@ Description: A 'pirouette' example.
   The main repo for the scripts is this repo.
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 Imports: 
     beastier (>= 2.0.25),
     beautier (>= 2.3),
