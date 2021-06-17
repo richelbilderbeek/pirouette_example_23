@@ -126,16 +126,13 @@ high_index_from <- mid_index_to + 1
 high_index_to <- high_index_from + n_replicates - 1
  
 pir_plots(pir_outs[low_index_from:low_index_to]) +
-  ggtitle(paste("Low likelihood. Number of replicates: ", n_replicates)) +
-  ggsave("errors_low.png", width = 7, height = 7)
+  ggtitle(paste("Low likelihood. Number of replicates: ", n_replicates)); ggsave("errors_low.png", width = 7, height = 7)
 
 pir_plots(pir_outs[mid_index_from:mid_index_to]) +
-  ggtitle(paste("Median likelihood. Number of replicates: ", n_replicates)) +
-  ggsave("errors_mid.png", width = 7, height = 7)
+  ggtitle(paste("Median likelihood. Number of replicates: ", n_replicates)); ggsave("errors_mid.png", width = 7, height = 7)
 
 pir_plots(pir_outs[high_index_from:high_index_to]) +
-  ggtitle(paste("High likelihood. Number of replicates: ", n_replicates)) +
-  ggsave("errors_high.png", width = 7, height = 7)
+  ggtitle(paste("High likelihood. Number of replicates: ", n_replicates)); ggsave("errors_high.png", width = 7, height = 7)
 
 # Save individual runs
 for (i in seq_along(pir_outs)) {
